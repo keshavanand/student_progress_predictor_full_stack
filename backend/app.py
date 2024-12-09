@@ -42,8 +42,10 @@ def predict_gpa():
         data = preprocessor.transform(data)
         
         # Make a prediction using the GPA model
-        prediction = gpa_model.predict(data)
+        prediction = gpa_model.predict(data[:, :4])
 
+        print(prediction[0][0])
+        
         prediction= reverse_min_max_normalization(prediction[0][0])
         print(prediction)
         # Return the result as a JSON response
