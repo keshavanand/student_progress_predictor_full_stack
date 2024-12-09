@@ -56,9 +56,16 @@ def predict_gpa():
 def predict_persistence():
     try:
         data = request.get_json()
-        processed_data = preprocess_data_persistence(data['features'])
-        prediction = (persistence_model.predict(processed_data) > 0.5).astype(int)
-        return jsonify({'persistence_prediction': prediction.tolist()}), 200
+
+        data = pd.DataFrame([data])
+
+        data = preprocessor.transform(data)
+
+        prediction = (persistence_model.predict(data) > 0.5).astype(int)
+
+        prediction = "Will be presisitance" if prediction[0][0] == 1 else "Not persistance"
+
+        return jsonify({'persistence_prediction': prediction}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 

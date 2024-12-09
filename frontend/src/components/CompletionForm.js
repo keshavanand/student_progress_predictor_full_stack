@@ -21,6 +21,8 @@ const CompletionForm = () => {
 
   const [completionResult, setCompletionResult] = useState(null);
   const [gpaResult, setGpaResult] = useState(null);
+  const [presistanceResult, setpresistanceResult] = useState(null);
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,6 +38,11 @@ const CompletionForm = () => {
       // Request for GPA prediction
       const gpaResponse = await axios.post("http://127.0.0.1:5000/predict/gpa", formData);
       setGpaResult(gpaResponse.data.gpa_prediction);
+
+      // Request for Presistance prediction
+      const presistanceResponse = await axios.post("http://127.0.0.1:5000/predict/persistence", formData);
+      setpresistanceResult(presistanceResponse.data.persistence_prediction);
+
     } catch (error) {
       console.error("Error:", error);
     }
@@ -271,6 +278,8 @@ const CompletionForm = () => {
       </form>
       {completionResult && <p className="mt-4 text-xl">Predicted Completion: {completionResult}</p>}
       {gpaResult && <p className="mt-4 text-xl">Predicted GPA: {gpaResult}</p>}
+      {presistanceResult && <p className="mt-4 text-xl">Predicted presistance: {presistanceResult}</p>}
+
     </div>
   );
 };
